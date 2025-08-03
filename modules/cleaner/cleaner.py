@@ -8,8 +8,9 @@ from io import BytesIO
 import imagehash
 import logging
 
-INPUT_PATH = 'data/scraped/pairs.jsonl'
-OUTPUT_PATH = 'data/cleaned/cleaned_pairs.jsonl'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # 获取当前文件所在的目录
+INPUT_PATH = os.path.join(BASE_DIR,'data/scraped/pairs.jsonl')
+OUTPUT_PATH = os.path.join(BASE_DIR,'data/cleaned/cleaned_pairs.jsonl')
 BAD_KEYWORDS = ['广告', '促销', '点击', '购买', '赞助', '点我', '扫码']
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
