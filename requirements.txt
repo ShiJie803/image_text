@@ -1,0 +1,11 @@
+flask
+gunicorn
+requests
+cloudinary
+beautifulsoup4
+tqdm
+pandas
+imagehash
+Pillow
+pyarrow
+
