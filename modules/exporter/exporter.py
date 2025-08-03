@@ -3,7 +3,7 @@ import json
 import csv
 import pandas as pd
 
-INPUT_DIR = 'data/split'
+INPUT_DIR = 'data/cleaned'
 OUTPUT_DIR = 'data/exported'
 
 def read_jsonl(file_path):
