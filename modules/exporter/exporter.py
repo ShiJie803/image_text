@@ -3,7 +3,7 @@ import json
 import csv
 import pandas as pd
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # 获取当前文件所在的目录
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
 
 INPUT_FILE = os.path.join(BASE_DIR, 'data/cleaned/cleaned_pairs.jsonl')
 OUTPUT_DIR = os.path.join(BASE_DIR, 'data/exported')
