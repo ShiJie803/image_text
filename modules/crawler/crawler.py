@@ -18,7 +18,9 @@ MAX_IMAGES = 20
 FILTER_DUPLICATES = False  # 简单按 image_url 去重，非深度图文相似度过滤
 
 CLOUD_FOLDER = "paired_images"
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # 获取当前文件所在的目录
+
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
+
 OUTPUT_JSONL = os.path.join(BASE_DIR,"data/scraped/pairs.jsonl") # 统一到 data/ 目录，方便后续清洗模块复用
 
 # === Cloudinary 配置 ===
