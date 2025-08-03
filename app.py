@@ -75,7 +75,7 @@ def download_exported():
         return jsonify({'status': 'error', 'message': '不支持的格式'}), 400
 
     # 构建文件路径
-    filepath = os.path.abspath(f'data/exported/cleaned_pairs.{format_}')
+    filepath = '/opt/render/project/src/data/exported/cleaned_pairs.jsonl'
     if not os.path.exists(filepath):
         return jsonify({'status': 'error', 'message': f'文件不存在: cleaned_pairs.{format_}'}), 404
 
