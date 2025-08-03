@@ -23,7 +23,7 @@ def start_scraping():
         try:
             threads = int(threads)
             if threads < 1 or threads > 5:
-                return jsonify({'status': 'error', 'message': '线程数应在1到20之间'}), 400
+                return jsonify({'status': 'error', 'message': '线程数应在1到5之间'}), 400
         except (ValueError, TypeError):
             return jsonify({'status': 'error', 'message': '线程数必须为整数'}), 400
 
@@ -58,6 +58,29 @@ def export_data():
     except Exception as e:
         print(f"[ERROR] exportData: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/deleteExportedDataset', methods=['POST'])
+def delete_exported_dataset():
+    filepath = os.path.abspath('data/exported/cleaned_pairs.jsonl')
+    if os.path.exists(filepath):
+        os.remove(filepath)
+        return jsonify({'status': 'success', 'message': '文件已成功删除'})
+    else:
+        return jsonify({'status': 'error', 'message': '文件不存在'})
+
+@app.route('/downloadExportedDataset', methods=['GET'])
+def download_exported():
+    format_ = request.args.get('format', 'jsonl').lower()
+    if format_ not in ['jsonl', 'csv', 'parquet']:
+        return jsonify({'status': 'error', 'message': '不支持的格式'}), 400
+
+    # 构建文件路径
+    filepath = os.path.abspath(f'data/exported/cleaned_pairs.{format_}')
+    if not os.path.exists(filepath):
+        return jsonify({'status': 'error', 'message': f'文件不存在: cleaned_pairs.{format_}'}), 404
+
+    # 提供下载
+    return send_file(filepath, as_attachment=True)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
