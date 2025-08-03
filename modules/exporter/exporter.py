@@ -3,7 +3,7 @@ import json
 import csv
 import pandas as pd
 
-INPUT_DIR = 'data/cleaned'
+INPUT_FILE = 'data/cleaned/cleaned_pairs.jsonl'
 OUTPUT_DIR = 'data/exported'
 
 def read_jsonl(file_path):
@@ -46,29 +46,21 @@ def run_export(format='jsonl'):
     if format not in ['jsonl', 'csv', 'parquet']:
         return {'status': 'error', 'message': '不支持的导出格式'}
 
-    if not os.path.exists(INPUT_DIR):
-        return {'status': 'error', 'message': f'输入目录不存在: {INPUT_DIR}'}
+    if not os.path.exists(INPUT_FILE):
+        return {'status': 'error', 'message': f'输入文件不存在: {INPUT_FILE}'}
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    datasets = ['train', 'val', 'test']
-    for ds in datasets:
-        input_file = os.path.join(INPUT_DIR, f'{ds}.jsonl')
-        if not os.path.exists(input_file):
-            return {'status': 'error', 'message': f'缺少数据集文件: {ds}.jsonl'}
-
     try:
-        data_dict = {ds: read_jsonl(os.path.join(INPUT_DIR, f'{ds}.jsonl')) for ds in datasets}
-        for ds in datasets:
-            out_path = os.path.join(OUTPUT_DIR, f'{ds}.{format}')
-            if format == 'jsonl':
-                export_jsonl(data_dict[ds], out_path)
-            elif format == 'csv':
-                export_csv(data_dict[ds], out_path)
-            elif format == 'parquet':
-                export_parquet(data_dict[ds], out_path)
+        data = read_jsonl(INPUT_FILE)
+        output_path = os.path.join(OUTPUT_DIR, f'cleaned_pairs.{format}')
+        if format == 'jsonl':
+            export_jsonl(data, output_path)
+        elif format == 'csv':
+            export_csv(data, output_path)
+        elif format == 'parquet':
+            export_parquet(data, output_path)
     except Exception as e:
         return {'status': 'error', 'message': str(e)}
 
-    return {'status': 'success', 'message': f'数据集已导出为 {format} 格式，路径：{OUTPUT_DIR}'}
-
+    return {'status': 'success', 'message': f'数据集已导出为 {format} 格式，路径：{output_path}'}
