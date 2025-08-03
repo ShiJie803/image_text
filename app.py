@@ -15,14 +15,14 @@ def start_scraping():
     try:
         data = request.get_json(force=True)
         input_text = data.get('url', '').strip()
-        threads = data.get('threads', 5)
+        threads = data.get('threads', 3)
 
         if not input_text:
             return jsonify({'status': 'error', 'message': '请输入关键词或网址'}), 400
 
         try:
             threads = int(threads)
-            if threads < 1 or threads > 20:
+            if threads < 1 or threads > 5:
                 return jsonify({'status': 'error', 'message': '线程数应在1到20之间'}), 400
         except (ValueError, TypeError):
             return jsonify({'status': 'error', 'message': '线程数必须为整数'}), 400
@@ -62,5 +62,3 @@ def export_data():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-
-
